@@ -17,7 +17,7 @@ public class CustomerServiceImpl implements CustomerService {
     public String saveCustomer(CustomerSaveRequestDTO saveRequestDTO) {
 
         Customer customer = new Customer(
-                saveRequestDTO.getCustomerID(),
+                1,
                 saveRequestDTO.getCustomerName(),
                 saveRequestDTO.getCustomerAddress(),
                 saveRequestDTO.getSalary(),
@@ -29,6 +29,28 @@ public class CustomerServiceImpl implements CustomerService {
         customerReo.save(customer);
 
         return "saved";
+
+    }
+
+    @Override
+    public String updateCustomer(CustomerSaveRequestDTO requestDTO) {
+
+        if (customerReo.existsById(requestDTO.getCustomerID())) {
+
+            Customer customer = customerReo.getReferenceById(requestDTO.getCustomerID());
+
+            customer.setCustomerName(requestDTO.getCustomerName());
+            customer.setCustomerAddress(requestDTO.getCustomerAddress());
+            customer.setSalary(requestDTO.getSalary());
+            customer.setActiveState(requestDTO.isActiveState());
+
+            customerReo.save(customer);
+
+            return requestDTO.getCustomerName() + " has been updated...!";
+
+        } else {
+            return "something went wrong...!";
+        }
 
     }
 }
