@@ -9,6 +9,7 @@ import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -42,4 +43,16 @@ public class Customer {
     @Column(name = "active_state",columnDefinition = "TINYINT default 1")
     private boolean activeState;
 
+    public Customer(int customerID, String customerName, String customerAddress, double salary, ArrayList contacts, String nic, boolean activeState) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.customerAddress = customerAddress;
+        this.salary = salary;
+        this.contacts = contacts;
+        this.nic = nic;
+        this.activeState = activeState;
+    }
+
+    @OneToMany(mappedBy = "customer")
+    private Set<Orders> orders;
 }
